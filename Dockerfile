@@ -1,7 +1,7 @@
-# Stage 1: Build the application
-FROM node:18-alpine
+# Sử dụng Node.js base image với Ubuntu
+FROM node:18-buster
 
-# Install Chromium and necessary dependencies
+# Cài đặt Google Chrome và các phụ thuộc cần thiết
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -15,17 +15,17 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy all application files
+# Sao chép các file của ứng dụng
 COPY . .
 
-# Install app dependencies
+# Cài đặt các phụ thuộc ứng dụng
 RUN npm install --force
 
-# Build the application
+# Build ứng dụng
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose port ứng dụng chạy
 EXPOSE 8888
 
-# Start the application
+# Lệnh khởi chạy ứng dụng
 CMD ["npm", "start"]
