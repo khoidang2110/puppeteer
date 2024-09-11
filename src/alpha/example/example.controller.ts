@@ -119,7 +119,7 @@ export class ExampleController {
        
          executablePath: `/usr/bin/chromium-browser`,
          headless: true ,
-         //args: ['--no-sandbox', '--disable-setuid-sandbox','--enable-gpu'],
+         args: ['--no-sandbox', '--disable-setuid-sandbox'],
          ignoreDefaultArgs: ['--disable-extensions']
               });
 
