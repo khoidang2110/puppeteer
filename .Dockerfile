@@ -1,25 +1,25 @@
 # Stage 1: Build the application
-FROM node:18-alpine
+FROM node:18-buster
 
-# Cài đặt Chromium và các phụ thuộc cần thiết
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    nodejs \
-    yarn
+# Cài đặt Google Chrome và các phụ thuộc cần thiết
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 # Cài đặt Puppeteer
 RUN npm install puppeteer@13.5.0
 
 # Tạo người dùng không cần --no-sandbox
-RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
+RUN addgroup --system pptruser && adduser --system --ingroup pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /app \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
