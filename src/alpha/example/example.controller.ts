@@ -115,10 +115,11 @@ export class ExampleController {
 
     try {
       const browser = await puppeteer.launch({
-       // headless: 'false',
+        
        
          executablePath: `/usr/bin/chromium-browser`,
-         args: ['--no-sandbox', '--disable-setuid-sandbox','--enable-gpu'],
+         headless: true ,
+         //args: ['--no-sandbox', '--disable-setuid-sandbox','--enable-gpu'],
          ignoreDefaultArgs: ['--disable-extensions']
               });
 
