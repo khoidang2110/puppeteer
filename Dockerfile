@@ -1,8 +1,13 @@
 # Stage 1: Build the application
 FROM node:18-alpine
 
-# Install Chromium browser
-RUN apk update && apk add --no-cache chromium
+# Install Chromium and necessary dependencies
+RUN apk update && apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  harfbuzz \
+  ttf-freefont
 
 # Set working directory
 WORKDIR /app
