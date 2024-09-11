@@ -117,7 +117,7 @@ export class ExampleController {
       const browser = await puppeteer.launch({
         
        
-         executablePath: `/usr/bin/google-chrome-stable`,
+         executablePath: `/usr/bin/chromium-browser`,
          headless: true ,
          args: [  '--no-sandbox', 
           '--disable-setuid-sandbox',
