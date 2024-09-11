@@ -1,48 +1,46 @@
 # Stage 1: Build the application
 FROM node:18-alpine
 
+# Cài đặt Chromium và các phụ thuộc cần thiết
 RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont \
-      nodejs \
-      yarn
-
-
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    nodejs \
+    yarn
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# Puppeteer v13.5.0 works with Chromium 100.
+# Cài đặt Puppeteer
 RUN npm install puppeteer@13.5.0
 
-# Add user so we don't need --no-sandbox.
+# Tạo người dùng không cần --no-sandbox
 RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /app \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
 
-
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to install dependencies
+# Sao chép package.json và package-lock.json trước để cài đặt các phụ thuộc
 COPY package*.json ./
 
-# Install dependencies
+# Cài đặt phụ thuộc
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of the application files
+# Sao chép các file ứng dụng còn lại
 COPY . .
 
-# Build the NestJS application
+# Build ứng dụng NestJS
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 8888
 
-# Command to run the application
+# Command để chạy ứng dụng
 CMD ["npm", "run", "start:prod"]
