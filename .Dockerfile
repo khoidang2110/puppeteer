@@ -1,5 +1,5 @@
 # Sử dụng Node.js base image với Ubuntu
-FROM node:18-buster
+FROM node:14-slim
 
 # Cài đặt Google Chrome và các phụ thuộc cần thiết
 RUN apt-get update && apt-get install -y \
