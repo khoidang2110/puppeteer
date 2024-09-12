@@ -46,12 +46,12 @@ export class ExampleController {
     }: any,
     @Res() res: Response,
   ) {
-    const listInfoHr = [
-      { name: 'Nguyễn Thùy Dương', phone: '0395749382' },
-      { name: 'Đỗ Thị Cẩm Tú', phone: '0937005115' },
-      { name: 'Đỗ Thảo Linh', phone: '0833700052' },
-    ];
-    const currentHr = listInfoHr.find((it) => hr.includes(it.name));
+    // const listInfoHr = [
+    //   { name: 'Nguyễn Thùy Dương', phone: '0395749382' },
+    //   { name: 'Đỗ Thị Cẩm Tú', phone: '0937005115' },
+    //   { name: 'Đỗ Thảo Linh', phone: '0833700052' },
+    // ];
+    // const currentHr = listInfoHr.find((it) => hr.includes(it.name));
     const textSuccess = `<!DOCTYPE html>
 <html lang="vi">
 <head>
