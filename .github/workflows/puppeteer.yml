@@ -43,5 +43,5 @@ jobs:
       
           # Clean up by removing the cloned repository files
           cd ..
-          rm -rf puppeteer
+          rm -r puppeteer
         EOF
