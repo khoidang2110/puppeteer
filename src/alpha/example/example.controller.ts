@@ -252,12 +252,10 @@ export class ExampleController {
 `;
     try {
       const browser = await puppeteer.launch({
-         executablePath: `/usr/bin/google-chrome`,
-         headless: true ,
-         args: [  '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-gpu'],
-         ignoreDefaultArgs: ['--disable-extensions']
+        executablePath: `/usr/bin/google-chrome`,
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+        ignoreDefaultArgs: ['--disable-extensions'],
       });
 
       const page = await browser.newPage();
