@@ -27,7 +27,23 @@ export class ExampleController {
 
   @Get('/testt')
   async convertToBase64(
-    @Query() { name, position, type = 'thanks', hr, location, time }: any,
+    @Query()
+    {
+      phone,
+      salary,
+      probationSalary,
+      workingPlace,
+      timeStart,
+      email,
+      workingPart,
+      name,
+      position,
+      // type = 'thanks',
+      hr,
+      // location,
+      // time,
+      workingTime,
+    }: any,
     @Res() res: Response,
   ) {
     const listInfoHr = [
@@ -36,100 +52,219 @@ export class ExampleController {
       { name: 'Đỗ Thảo Linh', phone: '0833700052' },
     ];
     const currentHr = listInfoHr.find((it) => hr.includes(it.name));
-    const textThanks = `\n    <!DOCTYPE html>\n    <html lang="vi">\n    <head>\n        <meta charset="UTF-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\n        <title>Thư cảm ơn ứng viên</title>\n        <style>\n          body {\n              font-family: Arial, sans-serif;\n              line-height: 1.6;\n              color: #333;\n              margin: 0;\n              padding: 20px;\n              background-color: #f9f9f9;\n          }\n          .email-container {\n              width: 100%;\n              max-width: 600px;\n              margin: 0 auto;\n              padding: 20px;\n              border: 1px solid #ddd;\n              border-radius: 8px;\n              background-color: #fff;\n          }\n          .email-header {\n              text-align: center;\n              margin-bottom: 20px;\n              color: #0056b3;\n          }\n          .email-footer {\n              text-align: center;\n              margin-top: 30px;\n              font-size: 0.9em;\n              color: #888;\n          }\n        </style>\n    </head>\n    <body>\n        <div class="email-container">\n            <h2 class="email-header">Thư Cảm Ơn</h2>\n            <p>Xin chào Anh/Chị ${name},</p>\n            <p>CÔNG TY CỔ PHẦN DƯỢC PHẨM NORWAY PHARMATECH AS chân thành cảm ơn Anh/Chị đã nộp đơn ứng tuyển vào vị trí <strong>${position}</strong> của Công ty.</p>\n            <p>Chúng tôi đã tiếp nhận hồ sơ ứng tuyển và đang trong quá trình đánh giá hồ sơ. Kết quả vòng hồ sơ sẽ được phản hồi lại Anh/Chị trong thời gian sớm nhất.</p>\n            <p>Chúc Anh/Chị một ngày tốt lành và đừng quên kiểm tra email thường xuyên nhé!</p>\n            <p>Chúng tôi rất mong sẽ có cơ hội cộng tác cùng Anh/Chị.</p>\n            <p>Trân trọng,</p>\n            <p>Đội ngũ Tuyển dụng</p>\n            <div class="email-footer">\n                <p>CÔNG TY CỔ PHẦN DƯỢC PHẨM NORWAY PHARMATECH AS</p>\n                <p>Email: contact@pharmatech.com | Điện thoại: (012) 345-6789</p>\n            </div>\n        </div>\n    </body>\n    </html>\n  `;
-    const textInterview = `
-    <!DOCTYPE html>
-    <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Thư Mời Phỏng Vấn</title>
-        <style>
-          body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              color: #333;
-              margin: 0;
-              padding: 20px;
-              background-color: #f9f9f9;
-          }
-          .email-container {
-              width: 100%;
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              border: 1px solid #ddd;
-              border-radius: 8px;
-              background-color: #fff;
-          }
-          .email-header {
-              text-align: center;
-              margin-bottom: 20px;
-              color: #0056b3;
-          }
-          .email-footer {
-              text-align: center;
-              margin-top: 30px;
-              font-size: 0.9em;
-              color: #888;
-          }
-        </style>
-    </head>
-    <body>
-        <div class="email-container">
-            <h2 class="email-header">Thư Mời Phỏng Vấn</h2>
-            <p>Kính gửi: Anh/ Chị ${name},</p>
-            <p>Lời đầu tiên, chúng tôi xin cảm ơn Anh/ Chị vì đã quan tâm đến vị trí <strong>${position}</strong> của Công ty Pharmatech. Thông qua hồ sơ mà Anh/ Chị đã gửi về, chúng tôi nhận thấy Anh/Chị có kiến thức chuyên môn phù hợp với vị trí mà chúng tôi đang tuyển.</p>
-            <p>Phòng Tuyển dụng trân trọng mời Anh/ Chị đến tham gia phỏng vấn tại Công ty chúng tôi, thông tin cụ thể như sau:</p>
-            <ul>
-                <li><strong>Vị trí tuyển dụng:</strong> ${position}</li>
-                <li><strong>Thời gian:</strong> ${time}</li>
-                <li><strong>Địa điểm:</strong> ${location}</li>
-                <li><strong>Liên hệ:</strong> ${currentHr.name} - Đt/Zalo: ${currentHr.phone} để được hỗ trợ.</li>
-            </ul>
-            <p><strong>LƯU Ý:</strong></p>
-            <ul>
-                <li>Anh/ Chị vui lòng phản hồi email này về việc xác nhận tham dự phỏng vấn và đến trước giờ hẹn 10 - 15 phút để nhân sự hỗ trợ sắp xếp phỏng vấn chu đáo hơn.</li>
-                <li>Trường hợp Anh/ Chị có phản hồi khác về thời gian phỏng vấn hoặc có bất kỳ thắc mắc nào về phía Công ty, hãy liên hệ theo số điện thoại phía trên hoặc phản hồi kèm theo thư này.</li>
-            </ul>
-            <p>Cám ơn Anh/ Chị đã quan tâm đến thông tin tuyển dụng của chúng tôi.</p>
-            <p>Trân trọng,</p>
-            <p>Thanks and Best Regards,</p>
-            <p>-------------------------------------</p>
-        </div>
-    </body>
-    </html>
-  `;
-    const content = () => {
-      switch (type) {
-        case 'thanks':
-          return textThanks;
-        case 'interview':
-          return textInterview;
+    const textSuccess = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Mời Nhận Việc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .email-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+        .email-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #888;
+        }
+        .header, .footer {
+            margin-bottom: 20px;
+        }
+        .date {
+            text-align: right;
+            font-weight: bold;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .bordered-table, .bordered-table th, .bordered-table td {
+            border: 1px solid black;
+        }
+        .no-border {
+            border: none;
+        }
+        .confirmation-section {
+            border: 1px solid black;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+        .company-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .company-logo {
+            max-width: 200px;
+            height: auto;
+        }
+        .national-title {
+            text-align: right;
+            font-weight: bold;
+        }
+        .bg-gray {
+            
+            background-color: #e0e0e0;
+        }
 
-        default:
-          return textThanks;
+        .no-wrap {
+          white-space: nowrap;
       }
-    };
-    console.log('content()', content());
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header company-info">
+            <img src="https://pharmatech-website.s3.ap-southeast-2.amazonaws.com/PMT+Logo+400x96.png" alt="Logo Pharmatech" class="company-logo">
+            <div class="national-title">
+             
+            <span>CỘNG HÒA XÃ HỘI
+                CHỦ NGHĨA
+                VIỆT NAM  </span></br>
+                Độc lập – Tự do – Hạnh phúc
+            </div>
+        </div>
 
+        <!-- Date -->
+        <p class="date">
+            TPHCM, ${timeStart}
+        </p>
+
+        <!-- Content -->
+        <div class="content">
+            <h2 class="email-header">THƯ MỜI NHẬN VIỆC</h2>
+            <p><strong>Kính gửi: Anh/Chị: ${name}</strong></p>
+            <p>Email: ${email}</p>
+            <p>Số điện thoại: ${phone}</p>
+            <p>CÔNG TY CỔ PHẦN DƯỢC PHẨM NORWAY PHARMATECH AS chân thành cảm ơn Anh/Chị đã quan tâm đến nhu cầu tuyển dụng và đã dành thời gian tiếp xúc, trao đổi với chúng tôi trong thời gian qua. Theo kết quả phỏng vấn, chúng tôi trân trọng mời Anh/Chị về cộng tác với chúng tôi, nội dung như sau:</p>
+        </div>
+
+        <!-- Job Details Table -->
+        <table class="bordered-table">
+            <tr>
+                <th >Chức danh</th>
+                <td>${position}</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'><span>Bộ phận/đơn vị làm việc</span></th>
+                <td>${workingPart}</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Ngày bắt đầu nhận việc</th>
+                <td>${timeStart}</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Địa điểm làm việc</th>
+                <td>${workingPlace}. (Hoặc theo sự sắp xếp phù hợp của Công ty)</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Thời giờ làm việc</th>
+                <td>${workingTime}; (Hoặc theo sự sắp xếp phù hợp của Công ty)</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Thời gian thử việc</th>
+                <td>02 tháng</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Lương thử việc</th>
+                <td>${probationSalary} đ/ tháng</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Lương chính thức</th>
+                <td>${salary} đ/ tháng</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Phụ cấp giữ xe</th>
+                <td>Theo chế độ phúc lợi của Công ty.</td>
+            </tr>
+            <tr>
+                <th class='no-wrap'>Các chế độ phúc lợi khác</th>
+                <td>Theo quy định chung của Công ty.</td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer">
+            <table class="no-border">
+                <tr>
+                    <td>
+                        <strong>Nơi nhận:</strong><br>
+                        - Như trên;<br>
+                        - Lưu P.HCNS
+                    </td>
+                    <td class="no-border" style="text-align: center;">
+                        <strong>TUQ. GIÁM ĐỐC</strong><br><br><br><br>
+                        PHẠM THỊ HẠNH
+                    </td>
+                </tr>
+            </table>
+            <table class="bordered-table">
+                <tr>
+                    <td class='bg-gray'><strong class='bg-gray'>Ứng viên xác nhận</strong></td>
+                    <td><strong>Ký tên</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        □ Tôi đồng ý nhận việc theo thư mời trên.<br>
+                        □ Ý kiến khác: …………………………
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Email Footer -->
+        <div class="email-footer">
+            <p>Chúng tôi mong muốn nhận được sự hợp tác từ Anh/Chị.</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
     try {
       const browser = await puppeteer.launch({
-        
-       
-         executablePath: `/usr/bin/google-chrome`,
-         headless: true ,
-         args: [  '--no-sandbox', 
-          '--disable-setuid-sandbox',
-          '--disable-gpu'],
-         ignoreDefaultArgs: ['--disable-extensions']
-              });
+        //  executablePath: `/usr/bin/google-chrome`,
+        //  headless: true ,
+        //  args: [  '--no-sandbox',
+        //   '--disable-setuid-sandbox',
+        //   '--disable-gpu'],
+        //  ignoreDefaultArgs: ['--disable-extensions']
+      });
 
       const page = await browser.newPage();
 
-      await page.setContent(content());
+      await page.setContent(textSuccess);
 
-      const pdfBuffer = await page.pdf({ format: 'A4' });
+      const pdfBuffer = await page.pdf();
 
       await browser.close();
 
