@@ -1,0 +1,47 @@
+name: Deploy puppeteer to VPS Docker
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image for Backend
+      run: docker build -t pp_img .
+
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass
+
+    - name: Deploy back end to VPS
+      env:
+        VPS_IP: ${{ secrets.VPS_IP }}
+        VPS_USER: ${{ secrets.VPS_USER }}
+        PASS: ${{ secrets.PASS }}
+      run: |
+        # SSH into VPS to extract and deploy
+        sshpass -p $PASS ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << EOF
+          cd /home/$VPS_USER
+          # Clone the private repository 
+          git clone https://github.com/khoidang2110/puppeteer.git puppeteer || (cd puppeteer && git pull)
+          cd puppeteer || exit
+          docker stop pp_ctn || true
+          docker rm pp_ctn || true
+          docker rmi -f pp_img || true  
+          docker build -t pp_img .
+          # docker - d chạy nodejs ngầm ko chạy lên terminal
+          docker run --restart=always -d -p 8888:8888 --name pp_ctn pp_img
+      
+          # Clean up by removing the cloned repository files
+          cd ..
+          rm -rf puppeteer
+        EOF
